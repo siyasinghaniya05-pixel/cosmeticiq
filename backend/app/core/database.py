@@ -11,7 +11,12 @@ if not DB_URL:
     db_path = os.path.join(os.path.dirname(__file__), "..", "..", "cosmeticiq.db")
     DB_URL = f"sqlite+aiosqlite:///{os.path.abspath(db_path)}"
 elif "postgresql" in DB_URL:
-    # PostgreSQL requested - try asyncpg
+    # Railway/Heroku provide postgresql:// URL, need postgresql+asyncpg://
+    if not DB_URL.startswith("postgresql+asyncpg://"):
+        DB_URL = DB_URL.replace("postgresql://", "postgresql+asyncpg://")
+    # Also handle postgres:// format (some providers)
+    if DB_URL.startswith("postgres://"):
+        DB_URL = DB_URL.replace("postgres://", "postgresql+asyncpg://")
     try:
         import asyncpg  # noqa: F401
     except ImportError:

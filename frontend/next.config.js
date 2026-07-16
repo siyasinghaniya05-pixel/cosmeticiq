@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   images: {
-    domains: ['openbeautyfacts.org', 'images.openbeautyfacts.org'],
-  },
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1',
+    remotePatterns: [
+      { protocol: 'https', hostname: 'openbeautyfacts.org' },
+      { protocol: 'https', hostname: 'images.openbeautyfacts.org' },
+    ],
   },
 };
 
