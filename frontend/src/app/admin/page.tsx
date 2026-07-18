@@ -43,11 +43,11 @@ export default function AdminPage() {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-4xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-4xl font-bold text-gray-900 flex items-center gap-3">
             <Shield className="w-10 h-10 text-pink-400" />
             Admin Panel
           </h1>
-          <p className="text-gray-400 mt-1">Manage products, ingredients, and rules</p>
+          <p className="text-gray-500 mt-1">Manage products, ingredients, and rules</p>
         </div>
       </motion.div>
 
@@ -60,7 +60,7 @@ export default function AdminPage() {
             className={`px-4 py-2 rounded-xl capitalize whitespace-nowrap transition-all ${
               activeTab === tab
                 ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
-                : 'glass text-gray-300 hover:text-white'
+                : 'glass text-gray-600 hover:text-gray-900'
             }`}
           >
             {tab}
@@ -88,8 +88,8 @@ export default function AdminPage() {
                     {stat.change}
                   </span>
                 </div>
-                <p className="text-3xl font-bold text-white">{stat.value}</p>
-                <p className="text-gray-400 text-sm">{stat.label}</p>
+                <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-gray-500 text-sm">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -97,7 +97,7 @@ export default function AdminPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Recent Flagged Products */}
             <div className="glass p-6">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5 text-red-400" />
                 Recent Flags
               </h3>
@@ -106,8 +106,8 @@ export default function AdminPage() {
                   <div key={idx} className="p-3 glass-card">
                     <div className="flex items-start justify-between">
                       <div>
-                        <p className="text-white font-medium">{flag.product}</p>
-                        <p className="text-gray-400 text-sm">{flag.reason}</p>
+                        <p className="text-gray-900 font-medium">{flag.product}</p>
+                        <p className="text-gray-500 text-sm">{flag.reason}</p>
                       </div>
                       <span className={`px-2 py-1 rounded text-xs ${
                         flag.severity === 'high'
@@ -125,7 +125,7 @@ export default function AdminPage() {
 
             {/* Quick Actions */}
             <div className="glass p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { label: 'Add Product', icon: Package, href: '/admin/products/new' },
@@ -138,7 +138,7 @@ export default function AdminPage() {
                   <Link
                     key={action.label}
                     href={action.href}
-                    className="glass-card flex items-center gap-3 text-gray-300 hover:text-white"
+                    className="glass-card flex items-center gap-3 text-gray-600 hover:text-gray-900"
                   >
                     <action.icon className="w-5 h-5 text-purple-400" />
                     <span>{action.label}</span>
@@ -154,25 +154,25 @@ export default function AdminPage() {
       {activeTab === 'products' && (
         <div className="glass p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-white">Product Management</h3>
+            <h3 className="text-lg font-semibold text-gray-900">Product Management</h3>
             <button className="glass-button text-sm">Add Product</button>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-white/10">
-                  <th className="pb-3 text-gray-400 font-medium">Product</th>
-                  <th className="pb-3 text-gray-400 font-medium">Brand</th>
-                  <th className="pb-3 text-gray-400 font-medium">Safety Score</th>
-                  <th className="pb-3 text-gray-400 font-medium">Status</th>
-                  <th className="pb-3 text-gray-400 font-medium">Actions</th>
+                <tr className="border-b border-gray-200">
+                  <th className="pb-3 text-gray-500 font-medium">Product</th>
+                  <th className="pb-3 text-gray-500 font-medium">Brand</th>
+                  <th className="pb-3 text-gray-500 font-medium">Safety Score</th>
+                  <th className="pb-3 text-gray-500 font-medium">Status</th>
+                  <th className="pb-3 text-gray-500 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {recentProducts.map((product) => (
-                  <tr key={product.id} className="border-b border-white/5">
-                    <td className="py-4 text-white">{product.name}</td>
-                    <td className="py-4 text-gray-400">{product.brand}</td>
+                  <tr key={product.id} className="border-b border-gray-200">
+                    <td className="py-4 text-gray-900">{product.name}</td>
+                    <td className="py-4 text-gray-500">{product.brand}</td>
                     <td className="py-4">
                       <div className="flex items-center gap-2">
                         <div className="w-20 h-2 bg-gray-700 rounded-full overflow-hidden">
@@ -184,7 +184,7 @@ export default function AdminPage() {
                             style={{ width: `${product.safety}%` }}
                           />
                         </div>
-                        <span className="text-sm text-gray-300">{product.safety}%</span>
+                        <span className="text-sm text-gray-600">{product.safety}%</span>
                       </div>
                     </td>
                     <td className="py-4">
@@ -198,13 +198,13 @@ export default function AdminPage() {
                     </td>
                     <td className="py-4">
                       <div className="flex items-center gap-2">
-                        <button className="text-gray-400 hover:text-white">
+                        <button className="text-gray-500 hover:text-gray-900">
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button className="text-gray-400 hover:text-white">
+                        <button className="text-gray-500 hover:text-gray-900">
                           <Edit className="w-4 h-4" />
                         </button>
-                        <button className="text-gray-400 hover:text-red-400">
+                        <button className="text-gray-500 hover:text-red-400">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -221,7 +221,7 @@ export default function AdminPage() {
       {activeTab === 'rules' && (
         <div className="glass p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-white">Fuzzy Logic Rules</h3>
+            <h3 className="text-lg font-semibold text-gray-900">Fuzzy Logic Rules</h3>
             <button className="glass-button text-sm">Add Rule</button>
           </div>
           <div className="space-y-4">
@@ -236,13 +236,13 @@ export default function AdminPage() {
                 <div className="flex items-center gap-4">
                   <span className="text-purple-400 font-mono text-sm">#{rule.id}</span>
                   <div>
-                    <p className="text-white">{rule.name}</p>
-                    <p className="text-gray-400 text-sm">Weight: {rule.weight}</p>
+                    <p className="text-gray-900">{rule.name}</p>
+                    <p className="text-gray-500 text-sm">Weight: {rule.weight}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className={`w-2 h-2 rounded-full ${rule.active ? 'bg-green-400' : 'bg-gray-500'}`} />
-                  <button className="text-gray-400 hover:text-white">
+                  <button className="text-gray-500 hover:text-gray-900">
                     <Edit className="w-4 h-4" />
                   </button>
                 </div>
@@ -256,24 +256,24 @@ export default function AdminPage() {
       {activeTab === 'ingredients' && (
         <div className="glass p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-white">Ingredient Database</h3>
+            <h3 className="text-lg font-semibold text-gray-900">Ingredient Database</h3>
             <button className="glass-button text-sm">Add Ingredient</button>
           </div>
-          <p className="text-gray-400 mb-4">
+          <p className="text-gray-500 mb-4">
             Manage the ingredient safety database. Currently tracking 10,234 ingredients.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="glass-card text-center">
               <p className="text-3xl font-bold text-green-400">8,456</p>
-              <p className="text-gray-400 text-sm">Safe Ingredients</p>
+              <p className="text-gray-500 text-sm">Safe Ingredients</p>
             </div>
             <div className="glass-card text-center">
               <p className="text-3xl font-bold text-yellow-400">1,523</p>
-              <p className="text-gray-400 text-sm">Moderate Risk</p>
+              <p className="text-gray-500 text-sm">Moderate Risk</p>
             </div>
             <div className="glass-card text-center">
               <p className="text-3xl font-bold text-red-400">255</p>
-              <p className="text-gray-400 text-sm">Hazardous</p>
+              <p className="text-gray-500 text-sm">Hazardous</p>
             </div>
           </div>
         </div>
@@ -282,19 +282,19 @@ export default function AdminPage() {
       {/* Users Tab */}
       {activeTab === 'users' && (
         <div className="glass p-6">
-          <h3 className="text-lg font-semibold text-white mb-6">User Management</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">User Management</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="glass-card text-center">
-              <p className="text-3xl font-bold text-white">8,923</p>
-              <p className="text-gray-400 text-sm">Total Users</p>
+              <p className="text-3xl font-bold text-gray-900">8,923</p>
+              <p className="text-gray-500 text-sm">Total Users</p>
             </div>
             <div className="glass-card text-center">
               <p className="text-3xl font-bold text-green-400">1,234</p>
-              <p className="text-gray-400 text-sm">Active Today</p>
+              <p className="text-gray-500 text-sm">Active Today</p>
             </div>
             <div className="glass-card text-center">
               <p className="text-3xl font-bold text-purple-400">456</p>
-              <p className="text-gray-400 text-sm">New This Week</p>
+              <p className="text-gray-500 text-sm">New This Week</p>
             </div>
           </div>
         </div>
@@ -303,7 +303,7 @@ export default function AdminPage() {
       {/* Flags Tab */}
       {activeTab === 'flags' && (
         <div className="glass p-6">
-          <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
             <AlertTriangle className="w-5 h-5 text-red-400" />
             Product Flags & Reports
           </h3>
@@ -312,12 +312,12 @@ export default function AdminPage() {
               <div key={idx} className="p-4 glass-card border-l-4 border-red-500">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-white font-medium">{flag.product}</p>
-                    <p className="text-gray-400">{flag.reason}</p>
+                    <p className="text-gray-900 font-medium">{flag.product}</p>
+                    <p className="text-gray-500">{flag.reason}</p>
                     <p className="text-gray-500 text-sm mt-1">{flag.date}</p>
                   </div>
                   <div className="flex gap-2">
-                    <button className="px-3 py-1 glass rounded text-sm text-gray-300 hover:text-white">
+                    <button className="px-3 py-1 glass rounded text-sm text-gray-600 hover:text-gray-900">
                       Review
                     </button>
                     <button className="px-3 py-1 bg-red-500/20 rounded text-sm text-red-300 hover:bg-red-500/30">

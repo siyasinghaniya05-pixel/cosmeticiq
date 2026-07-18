@@ -71,7 +71,7 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold text-white">Product not found</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Product not found</h2>
         <Link href="/scan" className="text-pink-400 mt-4 inline-block">
           Back to Scanner
         </Link>
@@ -84,7 +84,7 @@ export default function ProductDetailPage() {
       {/* Back Button */}
       <button
         onClick={() => router.back()}
-        className="flex items-center gap-2 text-gray-400 hover:text-white"
+        className="flex items-center gap-2 text-gray-500 hover:text-gray-900"
       >
         <ArrowLeft className="w-5 h-5" />
         Back
@@ -101,21 +101,21 @@ export default function ProductDetailPage() {
             />
           )}
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-white mb-2">{product.name}</h1>
-            <p className="text-xl text-gray-400 mb-4">{product.brand}</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
+            <p className="text-xl text-gray-500 mb-4">{product.brand}</p>
             
             <div className="flex flex-wrap gap-4 mb-6">
               {product.price && (
                 <div className="flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-green-400" />
-                  <span className="text-white text-xl">${product.price}</span>
+                  <span className="text-gray-900 text-xl">${product.price}</span>
                 </div>
               )}
               {product.rating > 0 && (
                 <div className="flex items-center gap-2">
                   <Star className="w-5 h-5 text-yellow-400" />
-                  <span className="text-white">{product.rating}/5</span>
-                  <span className="text-gray-400">({product.review_count} reviews)</span>
+                  <span className="text-gray-900">{product.rating}/5</span>
+                  <span className="text-gray-500">({product.review_count} reviews)</span>
                 </div>
               )}
             </div>
@@ -139,7 +139,7 @@ export default function ProductDetailPage() {
             </div>
 
             {product.description && (
-              <p className="text-gray-300 mb-6">{product.description}</p>
+              <p className="text-gray-600 mb-6">{product.description}</p>
             )}
 
             <button
@@ -168,10 +168,10 @@ export default function ProductDetailPage() {
         ].map((metric) => (
           <div key={metric.label} className="glass-card text-center">
             <metric.icon className="w-6 h-6 text-purple-400 mx-auto mb-2" />
-            <p className="text-2xl font-bold text-white">
+            <p className="text-2xl font-bold text-gray-900">
               {metric.max ? metric.value.toFixed(1) : (metric.value * 100).toFixed(0)}%
             </p>
-            <p className="text-gray-400 text-sm">{metric.label}</p>
+            <p className="text-gray-500 text-sm">{metric.label}</p>
           </div>
         ))}
       </div>
@@ -185,7 +185,7 @@ export default function ProductDetailPage() {
         >
           {/* Fuzzy Score */}
           <div className="glass p-8 text-center">
-            <h3 className="text-lg font-semibold text-white mb-4">Fuzzy Logic Suitability</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Fuzzy Logic Suitability</h3>
             <div className="text-6xl font-bold gradient-text mb-2">
               {(analysis.fuzzy_output?.suitability_score * 100).toFixed(0)}%
             </div>
@@ -201,8 +201,8 @@ export default function ProductDetailPage() {
 
           {/* Explanation */}
           <div className="glass p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">AI Explanation</h3>
-            <div className="text-gray-300 whitespace-pre-wrap">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">AI Explanation</h3>
+            <div className="text-gray-600 whitespace-pre-wrap">
               {analysis.explanation}
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function ProductDetailPage() {
           {/* Triggered Rules */}
           {analysis.fuzzy_output?.triggered_rules?.length > 0 && (
             <div className="glass p-6">
-              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <Brain className="w-5 h-5 text-purple-400" />
                 Fuzzy Rules Triggered
               </h3>
@@ -218,15 +218,15 @@ export default function ProductDetailPage() {
                 {analysis.fuzzy_output.triggered_rules.map((rule: any, idx: number) => (
                   <div key={idx} className="p-3 glass-card text-sm">
                     <span className="text-purple-400">Rule #{idx + 1}:</span>{' '}
-                    <span className="text-gray-300">
+                    <span className="text-gray-600">
                       {Object.entries(rule.conditions || {}).map(([k, v]) => (
                         <span key={k}>
-                          <span className="text-white">{k.replace(/_/g, ' ')}</span> is{' '}
+                          <span className="text-gray-900">{k.replace(/_/g, ' ')}</span> is{' '}
                           <span className="text-pink-400">{v as string}</span>
                         </span>
                       )).reduce((prev: any, curr: any) => [prev, ' AND ', curr], '')}
                     </span>
-                    <span className="text-gray-400"> → </span>
+                    <span className="text-gray-500"> → </span>
                     <span className="text-green-400">{rule.output}</span>
                   </div>
                 ))}
@@ -242,7 +242,7 @@ export default function ProductDetailPage() {
           <BarChart3 className="w-5 h-5" />
           Compare Products
         </Link>
-        <button className="glass flex items-center gap-2 px-6 py-3 text-gray-300 hover:text-white">
+        <button className="glass flex items-center gap-2 px-6 py-3 text-gray-600 hover:text-gray-900">
           <Heart className="w-5 h-5" />
           Add to Wishlist
         </button>

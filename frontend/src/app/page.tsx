@@ -33,7 +33,7 @@ const features = [
     icon: Shield,
     title: 'Safety Verification',
     description: 'Identify harmful ingredients, allergens, and endocrine disruptors.',
-    href: '/safety',
+    href: '/analyze',
     color: 'from-green-500 to-emerald-500',
   },
   {
@@ -47,7 +47,7 @@ const features = [
     icon: Sparkles,
     title: 'AI Beauty Assistant',
     description: 'Get personalized explanations in simple, non-technical language.',
-    href: '/assistant',
+    href: '/fuzzy-logic',
     color: 'from-violet-500 to-purple-500',
   },
 ];
@@ -67,28 +67,28 @@ export default function Home() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             <span className="gradient-text">Cosmetic</span>
-            <span className="text-white">IQ</span>
+            <span className="text-gray-900">IQ</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8">
+          <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-8">
             AI-powered cosmetic safety platform using{' '}
-            <span className="text-pink-400">Fuzzy Logic</span> and{' '}
-            <span className="text-purple-400">Scientific Analysis</span>
+            <span className="text-pink-600">Fuzzy Logic</span> and{' '}
+            <span className="text-purple-600">Scientific Analysis</span>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/scan" className="glass-button text-lg inline-flex items-center justify-center">
               Scan Product
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
-            <Link href="/analyze" className="px-8 py-3 rounded-xl font-semibold text-white border border-white/30 hover:bg-white/10 transition-all text-center">
+            <Link href="/analyze" className="px-8 py-3 rounded-xl font-semibold text-gray-700 border border-gray-300 hover:bg-gray-100 transition-all text-center">
               Analyze Ingredients
             </Link>
           </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mt-12 flex flex-wrap justify-center gap-6 text-gray-400">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mt-12 flex flex-wrap justify-center gap-6 text-gray-500">
           {['50+ Fuzzy Rules', '10,000+ Ingredients', 'PubMed Verified', 'EWG Scores'].map((item) => (
             <div key={item} className="flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-green-400" />
+              <CheckCircle2 className="w-5 h-5 text-green-500" />
               <span>{item}</span>
             </div>
           ))}
@@ -98,8 +98,8 @@ export default function Home() {
       {/* Features */}
       <section>
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Powerful Features</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">Everything you need to make informed cosmetic choices, backed by science and AI.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powerful Features</h2>
+          <p className="text-gray-500 max-w-2xl mx-auto">Everything you need to make informed cosmetic choices, backed by science and AI.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -109,8 +109,8 @@ export default function Home() {
                 <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-4`}>
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-gray-500">{feature.description}</p>
               </Link>
             </motion.div>
           ))}
@@ -120,16 +120,16 @@ export default function Home() {
       {/* How It Works */}
       <section>
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">How It Works</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">Our unique approach combines fuzzy logic with AI for scientifically-backed recommendations.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
+          <p className="text-gray-500 max-w-2xl mx-auto">Our unique approach combines fuzzy logic with AI for scientifically-backed recommendations.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {steps.map((step, index) => (
             <motion.div key={step.step} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.15 }} className="text-center">
               <div className="text-6xl font-bold gradient-text opacity-50 mb-4">{step.step}</div>
-              <h3 className="text-xl font-semibold text-white mb-2">{step.title}</h3>
-              <p className="text-gray-400">{step.description}</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">{step.title}</h3>
+              <p className="text-gray-500">{step.description}</p>
             </motion.div>
           ))}
         </div>
@@ -138,8 +138,8 @@ export default function Home() {
       {/* CTA */}
       <section className="glass p-12 text-center">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Transform Your Skincare Routine?</h2>
-          <p className="text-gray-300 max-w-2xl mx-auto mb-8">Join thousands of users making smarter cosmetic choices with AI-powered analysis.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Ready to Transform Your Skincare Routine?</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto mb-8">Join thousands of users making smarter cosmetic choices with AI-powered analysis.</p>
           <Link href="/register" className="glass-button text-lg inline-flex items-center">
             Get Started Free
             <ArrowRight className="w-5 h-5 ml-2" />

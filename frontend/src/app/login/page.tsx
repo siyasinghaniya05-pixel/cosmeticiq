@@ -51,8 +51,8 @@ export default function LoginPage() {
             <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Sparkles className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-white">Welcome Back</h1>
-            <p className="text-gray-400 mt-2">Sign in to your CosmeticIQ account</p>
+            <h1 className="text-3xl font-bold text-gray-900">Welcome Back</h1>
+            <p className="text-gray-500 mt-2">Sign in to your CosmeticIQ account</p>
           </div>
 
           {/* Error */}
@@ -65,9 +65,9 @@ export default function LoginPage() {
           {/* Form */}
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-gray-300 text-sm mb-2">Email or Username</label>
+              <label className="block text-gray-600 text-sm mb-2">Email or Username</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                 <input
                   type="text"
                   value={email}
@@ -80,9 +80,9 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-gray-300 text-sm mb-2">Password</label>
+              <label className="block text-gray-600 text-sm mb-2">Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
@@ -94,7 +94,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-900"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -102,8 +102,8 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 text-gray-300">
-                <input type="checkbox" className="rounded border-gray-600 bg-white/5" />
+              <label className="flex items-center gap-2 text-gray-600">
+                <input type="checkbox" className="rounded border-gray-600 bg-gray-50" />
                 Remember me
               </label>
               <Link href="/forgot-password" className="text-pink-400 hover:text-pink-300">
@@ -125,7 +125,7 @@ export default function LoginPage() {
           </form>
 
           {/* Footer */}
-          <p className="text-center text-gray-400 mt-6">
+          <p className="text-center text-gray-500 mt-6">
             Don't have an account?{' '}
             <Link href="/register" className="text-pink-400 hover:text-pink-300">
               Sign up

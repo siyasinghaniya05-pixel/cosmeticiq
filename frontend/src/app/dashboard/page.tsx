@@ -57,7 +57,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400">Loading your dashboard...</p>
+          <p className="text-gray-500">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -74,8 +74,8 @@ export default function DashboardPage() {
           <div className="w-20 h-20 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <Sparkles className="w-10 h-10 text-pink-400" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-3">Welcome to CosmeticIQ</h1>
-          <p className="text-gray-400 text-lg mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">Welcome to CosmeticIQ</h1>
+          <p className="text-gray-500 text-lg mb-8">
             Complete your skin profile to get personalized AI-powered recommendations
           </p>
         </motion.div>
@@ -110,12 +110,12 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
             >
-              <Link href={item.href} className="glass p-6 block hover:border-white/20 transition-all group h-full">
+              <Link href={item.href} className="glass p-6 block hover:border-gray-200 transition-all group h-full">
                 <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${item.color} flex items-center justify-center mb-4`}>
                   <item.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-white font-semibold mb-2">{item.title}</h3>
-                <p className="text-gray-400 text-sm mb-4">{item.desc}</p>
+                <h3 className="text-gray-900 font-semibold mb-2">{item.title}</h3>
+                <p className="text-gray-500 text-sm mb-4">{item.desc}</p>
                 <span className="text-pink-400 text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
                   Get Started <ArrowRight className="w-4 h-4" />
                 </span>
@@ -130,7 +130,7 @@ export default function DashboardPage() {
           transition={{ delay: 0.4 }}
           className="glass p-6 text-center"
         >
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-500 text-sm">
             Your dashboard will show skin health tracking, product recommendations, routine management, and safety alerts once you complete your profile.
           </p>
         </motion.div>
@@ -156,8 +156,8 @@ export default function DashboardPage() {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-4xl font-bold text-white">My Dashboard</h1>
-          <p className="text-gray-400 mt-1">
+          <h1 className="text-4xl font-bold text-gray-900">My Dashboard</h1>
+          <p className="text-gray-500 mt-1">
             {skin.skin_type ? `${skin.skin_type.charAt(0).toUpperCase() + skin.skin_type.slice(1)} skin` : 'Your'} skincare overview
           </p>
         </div>
@@ -185,8 +185,8 @@ export default function DashboardPage() {
             <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${stat.bg} flex items-center justify-center mb-3`}>
               <stat.icon className={`w-6 h-6 ${stat.color}`} />
             </div>
-            <p className="text-2xl font-bold text-white">{stat.value}</p>
-            <p className="text-gray-400 text-sm">{stat.label}</p>
+            <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+            <p className="text-gray-500 text-sm">{stat.label}</p>
           </motion.div>
         ))}
       </div>
@@ -200,7 +200,7 @@ export default function DashboardPage() {
             className={`px-4 py-2 rounded-xl capitalize whitespace-nowrap transition-all ${
               activeTab === tab
                 ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
-                : 'glass text-gray-300 hover:text-white'
+                : 'glass text-gray-600 hover:text-gray-900'
             }`}
           >
             {tab}
@@ -212,7 +212,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Weekly Analysis */}
           <div className="glass p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-green-400" />
               Weekly Skin Analysis
             </h3>
@@ -224,8 +224,8 @@ export default function DashboardPage() {
               ].map((item) => (
                 <div key={item.label}>
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-400">{item.label}</span>
-                    <span className="text-white font-medium">{item.value}{item.invert ? '' : '%'}</span>
+                    <span className="text-gray-500">{item.label}</span>
+                    <span className="text-gray-900 font-medium">{item.value}{item.invert ? '' : '%'}</span>
                   </div>
                   <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
                     <div
@@ -237,8 +237,8 @@ export default function DashboardPage() {
               ))}
             </div>
             {monthly && (
-              <div className="mt-4 pt-4 border-t border-white/10 text-sm">
-                <p className="text-gray-400">Monthly changes:</p>
+              <div className="mt-4 pt-4 border-t border-gray-200 text-sm">
+                <p className="text-gray-500">Monthly changes:</p>
                 <p className="text-green-400">Hydration {monthly.hydration_change}, Clarity {monthly.clarity_change}, Sensitivity {monthly.sensitivity_change}</p>
               </div>
             )}
@@ -246,22 +246,22 @@ export default function DashboardPage() {
 
           {/* Skin Profile */}
           <div className="glass p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-pink-400" />
               Your Skin Profile
             </h3>
             <div className="space-y-3">
               <div className="flex justify-between p-3 glass-card">
-                <span className="text-gray-400">Skin Type</span>
-                <span className="text-white font-medium capitalize">{skin.skin_type || 'Not set'}</span>
+                <span className="text-gray-500">Skin Type</span>
+                <span className="text-gray-900 font-medium capitalize">{skin.skin_type || 'Not set'}</span>
               </div>
               <div className="flex justify-between p-3 glass-card">
-                <span className="text-gray-400">Age</span>
-                <span className="text-white font-medium">{skin.age || 'Not set'}</span>
+                <span className="text-gray-500">Age</span>
+                <span className="text-gray-900 font-medium">{skin.age || 'Not set'}</span>
               </div>
               <div className="flex justify-between p-3 glass-card">
-                <span className="text-gray-400">Concerns</span>
-                <span className="text-white font-medium">
+                <span className="text-gray-500">Concerns</span>
+                <span className="text-gray-900 font-medium">
                   {skin.concerns?.length > 0 ? skin.concerns.join(', ') : 'None'}
                 </span>
               </div>
@@ -274,15 +274,15 @@ export default function DashboardPage() {
 
           {/* Budget Tracker */}
           <div className="glass p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <DollarSign className="w-5 h-5 text-green-400" />
               Budget Tracker
             </h3>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-400">Monthly Budget</span>
-                  <span className="text-white">${budget.monthly_budget || 0}</span>
+                  <span className="text-gray-500">Monthly Budget</span>
+                  <span className="text-gray-900">${budget.monthly_budget || 0}</span>
                 </div>
                 <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
                   <div
@@ -290,18 +290,18 @@ export default function DashboardPage() {
                     style={{ width: `${budget.monthly_budget ? Math.min(((budget.spent || 0) / budget.monthly_budget) * 100, 100) : 0}%` }}
                   />
                 </div>
-                <p className="text-sm text-gray-400 mt-1">
+                <p className="text-sm text-gray-500 mt-1">
                   ${budget.spent || 0} spent / ${budget.remaining || budget.monthly_budget || 0} remaining
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4 text-center">
                 <div className="glass-card p-3">
-                  <p className="text-2xl font-bold text-white">${budget.total_saved || 0}</p>
-                  <p className="text-gray-400 text-sm">Total Saved</p>
+                  <p className="text-2xl font-bold text-gray-900">${budget.total_saved || 0}</p>
+                  <p className="text-gray-500 text-sm">Total Saved</p>
                 </div>
                 <div className="glass-card p-3">
-                  <p className="text-2xl font-bold text-white">{dashboardData?.current_products?.length || 0}</p>
-                  <p className="text-gray-400 text-sm">Products Tracked</p>
+                  <p className="text-2xl font-bold text-gray-900">{dashboardData?.current_products?.length || 0}</p>
+                  <p className="text-gray-500 text-sm">Products Tracked</p>
                 </div>
               </div>
             </div>
@@ -309,7 +309,7 @@ export default function DashboardPage() {
 
           {/* Quick Actions */}
           <div className="glass p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <ArrowRight className="w-5 h-5 text-purple-400" />
               Quick Actions
             </h3>
@@ -323,13 +323,13 @@ export default function DashboardPage() {
                 <Link
                   key={action.label}
                   href={action.href}
-                  className="flex items-center gap-3 p-3 glass-card hover:border-white/20 transition-all group"
+                  className="flex items-center gap-3 p-3 glass-card hover:border-gray-200 transition-all group"
                 >
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-pink-500/20 to-purple-500/20 flex items-center justify-center">
                     <action.icon className="w-5 h-5 text-pink-400" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-white text-sm font-medium">{action.label}</p>
+                    <p className="text-gray-900 text-sm font-medium">{action.label}</p>
                     <p className="text-gray-500 text-xs">{action.desc}</p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-500 group-hover:text-pink-400 transition-colors" />
@@ -342,7 +342,7 @@ export default function DashboardPage() {
 
       {activeTab === 'skin type' && (
         <div className="glass p-6">
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-pink-400" />
             Skin Type Details
           </h3>
@@ -364,13 +364,13 @@ export default function DashboardPage() {
                 }`}
               >
                 <span className="text-2xl">{t.emoji}</span>
-                <p className="text-white font-medium mt-2">{t.label}</p>
+                <p className="text-gray-900 font-medium mt-2">{t.label}</p>
               </div>
             ))}
           </div>
           {skin.concerns?.length > 0 && (
             <div>
-              <h4 className="text-white font-medium mb-3">Your Concerns</h4>
+              <h4 className="text-gray-900 font-medium mb-3">Your Concerns</h4>
               <div className="flex flex-wrap gap-2">
                 {skin.concerns.map((c: string) => (
                   <span key={c} className="px-3 py-1 bg-pink-500/20 text-pink-300 rounded-full text-sm">{c}</span>
@@ -387,27 +387,27 @@ export default function DashboardPage() {
 
       {activeTab === 'budget' && (
         <div className="glass p-6">
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <DollarSign className="w-5 h-5 text-green-400" />
             Budget Overview
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="glass-card p-4 text-center">
-              <p className="text-3xl font-bold text-white">${budget.monthly_budget || 0}</p>
-              <p className="text-gray-400 text-sm">Monthly Budget</p>
+              <p className="text-3xl font-bold text-gray-900">${budget.monthly_budget || 0}</p>
+              <p className="text-gray-500 text-sm">Monthly Budget</p>
             </div>
             <div className="glass-card p-4 text-center">
               <p className="text-3xl font-bold text-yellow-400">${budget.spent || 0}</p>
-              <p className="text-gray-400 text-sm">Spent</p>
+              <p className="text-gray-500 text-sm">Spent</p>
             </div>
             <div className="glass-card p-4 text-center">
               <p className="text-3xl font-bold text-green-400">${budget.remaining || budget.monthly_budget || 0}</p>
-              <p className="text-gray-400 text-sm">Remaining</p>
+              <p className="text-gray-500 text-sm">Remaining</p>
             </div>
           </div>
           <div className="glass-card p-4 text-center">
             <p className="text-2xl font-bold text-green-400">${budget.total_saved || 0}</p>
-            <p className="text-gray-400 text-sm">Total Saved with CosmeticIQ</p>
+            <p className="text-gray-500 text-sm">Total Saved with CosmeticIQ</p>
           </div>
         </div>
       )}
@@ -417,8 +417,8 @@ export default function DashboardPage() {
           {warnings.length === 0 ? (
             <div className="glass p-12 text-center">
               <Shield className="w-16 h-16 text-green-500/50 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">All Clear</h3>
-              <p className="text-gray-400">No safety alerts for your products</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">All Clear</h3>
+              <p className="text-gray-500">No safety alerts for your products</p>
             </div>
           ) : (
             warnings.map((warn: any, idx: number) => (
@@ -431,7 +431,7 @@ export default function DashboardPage() {
               >
                 <div className="flex items-start gap-3">
                   <AlertTriangle className="w-5 h-5 text-yellow-400 mt-0.5" />
-                  <p className="text-white">{typeof warn === 'string' ? warn : warn.message || 'Alert'}</p>
+                  <p className="text-gray-900">{typeof warn === 'string' ? warn : warn.message || 'Alert'}</p>
                 </div>
               </motion.div>
             ))

@@ -50,8 +50,8 @@ export default function AnalyzePage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h1 className="text-4xl font-bold text-white mb-4">Ingredient Analyzer</h1>
-        <p className="text-gray-400">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Ingredient Analyzer</h1>
+        <p className="text-gray-500">
           Search any ingredient to learn about its safety, functions, and scientific evidence
         </p>
       </motion.div>
@@ -60,7 +60,7 @@ export default function AnalyzePage() {
       <div className="glass p-6">
         <div className="flex gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
             <input
               type="text"
               value={searchTerm}
@@ -91,9 +91,9 @@ export default function AnalyzePage() {
           <div className="glass p-8">
             <div className="flex items-start justify-between mb-6">
               <div>
-                <h2 className="text-3xl font-bold text-white">{ingredientInfo.name}</h2>
+                <h2 className="text-3xl font-bold text-gray-900">{ingredientInfo.name}</h2>
                 {ingredientInfo.inci_name && (
-                  <p className="text-gray-400">INCI: {ingredientInfo.inci_name}</p>
+                  <p className="text-gray-500">INCI: {ingredientInfo.inci_name}</p>
                 )}
               </div>
               <div className={`text-right ${getSafetyColor(ingredientInfo.safety_score)}`}>
@@ -104,12 +104,12 @@ export default function AnalyzePage() {
               </div>
             </div>
 
-            <p className="text-gray-300 mb-6">{ingredientInfo.description}</p>
+            <p className="text-gray-600 mb-6">{ingredientInfo.description}</p>
 
             {/* Safety Meter */}
             <div className="mb-6">
               <div className="flex justify-between text-sm mb-2">
-                <span className="text-gray-400">Safety Score</span>
+                <span className="text-gray-500">Safety Score</span>
                 <span className={getSafetyColor(ingredientInfo.safety_score)}>
                   {getSafetyLabel(ingredientInfo.safety_score)}
                 </span>
@@ -133,7 +133,7 @@ export default function AnalyzePage() {
             {/* Functions */}
             {ingredientInfo.functions?.length > 0 && (
               <div className="mb-6">
-                <h4 className="text-white font-semibold mb-3">Functions</h4>
+                <h4 className="text-gray-900 font-semibold mb-3">Functions</h4>
                 <div className="flex flex-wrap gap-2">
                   {ingredientInfo.functions.map((func: string, idx: number) => (
                     <span
@@ -157,10 +157,10 @@ export default function AnalyzePage() {
                 ) : (
                   <CheckCircle2 className="w-5 h-5 text-green-400" />
                 )}
-                <span className="text-white text-sm">Comedogenic</span>
+                <span className="text-gray-900 text-sm">Comedogenic</span>
               </div>
               {ingredientInfo.is_comedogenic && (
-                <p className="text-gray-400 text-xs">
+                <p className="text-gray-500 text-xs">
                   Rating: {ingredientInfo.comedogenic_rating}/5
                 </p>
               )}
@@ -173,10 +173,10 @@ export default function AnalyzePage() {
                 ) : (
                   <CheckCircle2 className="w-5 h-5 text-green-400" />
                 )}
-                <span className="text-white text-sm">Fragrance</span>
+                <span className="text-gray-900 text-sm">Fragrance</span>
               </div>
               {ingredientInfo.is_fragrance && (
-                <p className="text-gray-400 text-xs">Potential allergen</p>
+                <p className="text-gray-500 text-xs">Potential allergen</p>
               )}
             </div>
 
@@ -187,10 +187,10 @@ export default function AnalyzePage() {
                 ) : (
                   <CheckCircle2 className="w-5 h-5 text-green-400" />
                 )}
-                <span className="text-white text-sm">Allergen</span>
+                <span className="text-gray-900 text-sm">Allergen</span>
               </div>
               {ingredientInfo.is_allergen && (
-                <p className="text-gray-400 text-xs">May cause reactions</p>
+                <p className="text-gray-500 text-xs">May cause reactions</p>
               )}
             </div>
 
@@ -201,10 +201,10 @@ export default function AnalyzePage() {
                 ) : (
                   <CheckCircle2 className="w-5 h-5 text-green-400" />
                 )}
-                <span className="text-white text-sm">Endocrine</span>
+                <span className="text-gray-900 text-sm">Endocrine</span>
               </div>
               {ingredientInfo.is_endocrine_disruptor && (
-                <p className="text-gray-400 text-xs">Hormone disruption</p>
+                <p className="text-gray-500 text-xs">Hormone disruption</p>
               )}
             </div>
           </div>
@@ -218,7 +218,7 @@ export default function AnalyzePage() {
                 ) : (
                   <CheckCircle2 className="w-5 h-5 text-green-400" />
                 )}
-                <span className="text-white">Pregnancy Safe</span>
+                <span className="text-gray-900">Pregnancy Safe</span>
               </div>
               {ingredientInfo.is_pregnancy_unsafe && (
                 <p className="text-yellow-300 text-sm mt-2">
@@ -234,7 +234,7 @@ export default function AnalyzePage() {
                 ) : (
                   <CheckCircle2 className="w-5 h-5 text-green-400" />
                 )}
-                <span className="text-white">Microplastic</span>
+                <span className="text-gray-900">Microplastic</span>
               </div>
               {ingredientInfo.is_microplastic && (
                 <p className="text-red-300 text-sm mt-2">
@@ -250,7 +250,7 @@ export default function AnalyzePage() {
                 ) : (
                   <CheckCircle2 className="w-5 h-5 text-green-400" />
                 )}
-                <span className="text-white">Irritant</span>
+                <span className="text-gray-900">Irritant</span>
               </div>
               {ingredientInfo.is_irritant && (
                 <p className="text-orange-300 text-sm mt-2">
@@ -263,13 +263,13 @@ export default function AnalyzePage() {
           {/* Warnings */}
           {ingredientInfo.warnings?.length > 0 && (
             <div className="glass p-6 border-yellow-500/30">
-              <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+              <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5 text-yellow-400" />
                 Warnings & Precautions
               </h4>
               <ul className="space-y-2">
                 {ingredientInfo.warnings.map((warning: string, idx: number) => (
-                  <li key={idx} className="flex items-start gap-2 text-gray-300">
+                  <li key={idx} className="flex items-start gap-2 text-gray-600">
                     <span className="text-yellow-400">•</span>
                     {warning}
                   </li>
@@ -280,7 +280,7 @@ export default function AnalyzePage() {
 
           {/* External References */}
           <div className="glass p-6">
-            <h4 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+            <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
               <Info className="w-5 h-5 text-blue-400" />
               Scientific References
             </h4>
@@ -320,7 +320,7 @@ export default function AnalyzePage() {
       {/* Quick Links */}
       {!ingredientInfo && (
         <div className="glass p-8">
-          <h3 className="text-xl font-semibold text-white mb-4">Popular Ingredients</h3>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Popular Ingredients</h3>
           <div className="flex flex-wrap gap-3">
             {[
               'Hyaluronic Acid', 'Retinol', 'Vitamin C', 'Niacinamide',
@@ -333,7 +333,7 @@ export default function AnalyzePage() {
                   setSearchTerm(ing);
                   setTimeout(() => searchIngredient(), 100);
                 }}
-                className="px-4 py-2 glass rounded-lg text-gray-300 hover:text-white hover:bg-white/10 transition-all"
+                className="px-4 py-2 glass rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all"
               >
                 {ing}
               </button>

@@ -100,10 +100,10 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h1 className="text-4xl font-bold text-white mb-2">
+        <h1 className="text-4xl font-bold text-gray-900 mb-2">
           {isSetup ? 'Complete Your Profile' : 'Edit Profile'}
         </h1>
-        <p className="text-gray-400">
+        <p className="text-gray-500">
           {isSetup 
             ? 'Tell us about your skin so we can provide personalized recommendations'
             : 'Update your skin profile for better recommendations'}
@@ -123,7 +123,7 @@ export default function ProfilePage() {
 
       {/* Skin Type */}
       <div className="glass p-6">
-        <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <User className="w-5 h-5 text-pink-400" />
           What's your skin type?
         </h3>
@@ -139,8 +139,8 @@ export default function ProfilePage() {
               }`}
             >
               <span className="text-2xl">{type.icon}</span>
-              <p className="text-white font-medium mt-2">{type.label}</p>
-              <p className="text-gray-400 text-sm">{type.description}</p>
+              <p className="text-gray-900 font-medium mt-2">{type.label}</p>
+              <p className="text-gray-500 text-sm">{type.description}</p>
             </button>
           ))}
         </div>
@@ -149,7 +149,7 @@ export default function ProfilePage() {
       {/* Age & Climate */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="glass p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Age</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Age</h3>
           <input
             type="range"
             min="15"
@@ -158,15 +158,15 @@ export default function ProfilePage() {
             onChange={(e) => setProfile({ ...profile, age: parseInt(e.target.value) })}
             className="w-full accent-pink-500"
           />
-          <div className="flex justify-between text-gray-400 text-sm mt-2">
+          <div className="flex justify-between text-gray-500 text-sm mt-2">
             <span>15</span>
-            <span className="text-white text-lg font-bold">{profile.age}</span>
+            <span className="text-gray-900 text-lg font-bold">{profile.age}</span>
             <span>80</span>
           </div>
         </div>
 
         <div className="glass p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Climate</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Climate</h3>
           <div className="grid grid-cols-2 gap-2">
             {climates.map((climate) => (
               <button
@@ -175,7 +175,7 @@ export default function ProfilePage() {
                 className={`p-3 rounded-xl flex items-center gap-2 text-sm transition-all ${
                   profile.climate === climate.id
                     ? 'bg-gradient-to-r from-pink-500/30 to-purple-500/30 border border-pink-500 text-white'
-                    : 'glass text-gray-300 hover:text-white'
+                    : 'glass text-gray-600 hover:text-gray-900'
                 }`}
               >
                 <climate.icon className="w-4 h-4" />
@@ -188,7 +188,7 @@ export default function ProfilePage() {
 
       {/* City */}
       <div className="glass p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">City</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">City</h3>
         <input
           type="text"
           value={profile.city}
@@ -200,10 +200,10 @@ export default function ProfilePage() {
 
       {/* Budget */}
       <div className="glass p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">Monthly Skincare Budget</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Skincare Budget</h3>
         <div className="flex items-center gap-4">
           <div className="flex-1">
-            <label className="text-gray-400 text-sm">Min</label>
+            <label className="text-gray-500 text-sm">Min</label>
             <input
               type="number"
               value={profile.budgetMin}
@@ -212,9 +212,9 @@ export default function ProfilePage() {
               min="0"
             />
           </div>
-          <span className="text-gray-400">to</span>
+          <span className="text-gray-500">to</span>
           <div className="flex-1">
-            <label className="text-gray-400 text-sm">Max</label>
+            <label className="text-gray-500 text-sm">Max</label>
             <input
               type="number"
               value={profile.budgetMax}
@@ -228,7 +228,7 @@ export default function ProfilePage() {
 
       {/* Skin Concerns */}
       <div className="glass p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">Skin Concerns</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Skin Concerns</h3>
         <div className="flex flex-wrap gap-2">
           {concerns.map((concern) => (
             <button
@@ -237,7 +237,7 @@ export default function ProfilePage() {
               className={`px-4 py-2 rounded-full text-sm transition-all ${
                 profile.concerns.includes(concern)
                   ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
-                  : 'glass text-gray-300 hover:text-white'
+                  : 'glass text-gray-600 hover:text-gray-900'
               }`}
             >
               {concern}
@@ -248,34 +248,34 @@ export default function ProfilePage() {
 
       {/* Preferences */}
       <div className="glass p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">Preferences</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Preferences</h3>
         <div className="space-y-4">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={profile.isPregnant}
               onChange={(e) => setProfile({ ...profile, isPregnant: e.target.checked })}
-              className="w-5 h-5 rounded border-gray-600 bg-white/5 text-pink-500 focus:ring-pink-500"
+              className="w-5 h-5 rounded border-gray-600 bg-gray-50 text-pink-500 focus:ring-pink-500"
             />
-            <span className="text-gray-300">I am pregnant or planning pregnancy</span>
+            <span className="text-gray-600">I am pregnant or planning pregnancy</span>
           </label>
           <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={profile.isVegan}
               onChange={(e) => setProfile({ ...profile, isVegan: e.target.checked })}
-              className="w-5 h-5 rounded border-gray-600 bg-white/5 text-pink-500 focus:ring-pink-500"
+              className="w-5 h-5 rounded border-gray-600 bg-gray-50 text-pink-500 focus:ring-pink-500"
             />
-            <span className="text-gray-300">I prefer vegan products</span>
+            <span className="text-gray-600">I prefer vegan products</span>
           </label>
           <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={profile.isCrueltyFree}
               onChange={(e) => setProfile({ ...profile, isCrueltyFree: e.target.checked })}
-              className="w-5 h-5 rounded border-gray-600 bg-white/5 text-pink-500 focus:ring-pink-500"
+              className="w-5 h-5 rounded border-gray-600 bg-gray-50 text-pink-500 focus:ring-pink-500"
             />
-            <span className="text-gray-300">I prefer cruelty-free products</span>
+            <span className="text-gray-600">I prefer cruelty-free products</span>
           </label>
         </div>
       </div>

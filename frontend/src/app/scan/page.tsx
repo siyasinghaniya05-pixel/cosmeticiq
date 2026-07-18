@@ -20,7 +20,6 @@ export default function ScanPage() {
   const [barcode, setBarcode] = useState('');
   const [ingredientsText, setIngredientsText] = useState('');
 
-  // Camera
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -253,13 +252,12 @@ export default function ScanPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h1 className="text-4xl font-bold text-white mb-4">Product Scanner</h1>
-        <p className="text-gray-400">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Product Scanner</h1>
+        <p className="text-gray-500">
           Scan, search, or upload to analyze any cosmetic product
         </p>
       </motion.div>
 
-      {/* Mode Selection */}
       <div className="flex flex-wrap justify-center gap-4">
         {modes.map((m) => (
           <button
@@ -268,7 +266,7 @@ export default function ScanPage() {
             className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all ${
               mode === m.id
                 ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
-                : 'glass text-gray-300 hover:text-white'
+                : 'glass text-gray-600 hover:text-gray-900'
             }`}
           >
             <m.icon className="w-5 h-5" />
@@ -277,7 +275,6 @@ export default function ScanPage() {
         ))}
       </div>
 
-      {/* Input Area */}
       <motion.div
         key={mode}
         initial={{ opacity: 0, y: 10 }}
@@ -286,7 +283,7 @@ export default function ScanPage() {
       >
         {mode === 'text' && (
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-white mb-4">Search Products</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Search Products</h3>
             <div className="flex gap-4">
               <input
                 type="text"
@@ -305,8 +302,8 @@ export default function ScanPage() {
               </button>
             </div>
             
-            <div className="mt-6 pt-6 border-t border-white/10">
-              <h4 className="text-lg font-medium text-white mb-3">Or analyze ingredients directly:</h4>
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <h4 className="text-lg font-medium text-gray-900 mb-3">Or analyze ingredients directly:</h4>
               <textarea
                 value={ingredientsText}
                 onChange={(e) => setIngredientsText(e.target.value)}
@@ -326,7 +323,7 @@ export default function ScanPage() {
 
         {mode === 'barcode' && (
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-white mb-4">Scan Barcode</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Scan Barcode</h3>
             <div className="flex gap-4">
               <input
                 type="text"
@@ -344,7 +341,7 @@ export default function ScanPage() {
                 {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Look Up'}
               </button>
             </div>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-500 text-sm">
               Enter a barcode number or scan using your device camera
             </p>
           </div>
@@ -352,10 +349,10 @@ export default function ScanPage() {
 
         {mode === 'upload' && (
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-white mb-4">Upload Product Image</h3>
-            <div className="border-2 border-dashed border-white/30 rounded-xl p-12 text-center hover:border-pink-500/50 transition-colors">
-              <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-400 mb-4">
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Upload Product Image</h3>
+            <div className="border-2 border-dashed border-gray-200 rounded-xl p-12 text-center hover:border-pink-500/50 transition-colors">
+              <Upload className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+              <p className="text-gray-500 mb-4">
                 Drag and drop an image, or click to browse
               </p>
               <input
@@ -377,12 +374,12 @@ export default function ScanPage() {
 
         {mode === 'camera' && (
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-white mb-4">Camera Scanner</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">Camera Scanner</h3>
             
             <canvas ref={canvasRef} className="hidden" />
 
             {!capturedImage ? (
-              <div className="relative rounded-xl overflow-hidden bg-black">
+              <div className="relative rounded-xl overflow-hidden bg-gray-900">
                 <video
                   ref={videoRef}
                   autoPlay
@@ -395,7 +392,7 @@ export default function ScanPage() {
                   <div className="absolute inset-0 flex items-end justify-center pb-6 gap-4">
                     <button
                       onClick={switchCamera}
-                      className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-all"
+                      className="p-3 bg-gray-100 backdrop-blur-md rounded-full text-gray-900 hover:bg-gray-200 transition-all"
                       title="Switch Camera"
                     >
                       <SwitchCamera className="w-5 h-5" />
@@ -414,7 +411,7 @@ export default function ScanPage() {
                     </button>
                     <button
                       onClick={stopCamera}
-                      className="p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-all"
+                      className="p-3 bg-gray-100 backdrop-blur-md rounded-full text-gray-900 hover:bg-gray-200 transition-all"
                       title="Close Camera"
                     >
                       <X className="w-5 h-5" />
@@ -423,14 +420,14 @@ export default function ScanPage() {
                 )}
                 {cameraActive && (
                   <div className="absolute top-4 left-4 right-4 flex justify-center">
-                    <span className="px-3 py-1 bg-black/50 backdrop-blur-sm rounded-full text-white text-xs flex items-center gap-2">
+                    <span className="px-3 py-1 bg-gray-900 backdrop-blur-sm rounded-full text-gray-100 text-xs flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                       Live
                     </span>
                   </div>
                 )}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-3/4 h-2/3 border-2 border-white/30 rounded-lg">
+                  <div className="w-3/4 h-2/3 border-2 border-gray-200 rounded-lg">
                     <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-pink-500 rounded-tl-lg" />
                     <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-pink-500 rounded-tr-lg" />
                     <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-pink-500 rounded-bl-lg" />
@@ -442,7 +439,7 @@ export default function ScanPage() {
               <div className="relative rounded-xl overflow-hidden">
                 <img src={capturedImage} alt="Captured" className="w-full rounded-xl" />
                 <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4">
-                  <button onClick={retakePhoto} className="px-6 py-3 bg-white/20 backdrop-blur-md rounded-xl text-white hover:bg-white/30 transition-all flex items-center gap-2">
+                  <button onClick={retakePhoto} className="px-6 py-3 bg-gray-100 backdrop-blur-md rounded-xl text-gray-900 hover:bg-gray-200 transition-all flex items-center gap-2">
                     <Camera className="w-4 h-4" /> Retake
                   </button>
                 </div>
@@ -469,8 +466,8 @@ export default function ScanPage() {
 
             {!cameraError && !cameraActive && !capturedImage && !isLoading && (
               <div className="text-center py-8">
-                <Camera className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-400 mb-4">Point your camera at the product label</p>
+                <Camera className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+                <p className="text-gray-500 mb-4">Point your camera at the product label</p>
                 <button onClick={startCamera} className="glass-button">
                   Enable Camera
                 </button>
@@ -480,7 +477,7 @@ export default function ScanPage() {
             {cameraActive && !videoReady && !cameraError && (
               <div className="text-center py-8">
                 <Loader2 className="w-8 h-8 text-pink-400 mx-auto mb-4 animate-spin" />
-                <p className="text-gray-400">Initializing camera...</p>
+                <p className="text-gray-500">Initializing camera...</p>
               </div>
             )}
 
@@ -495,7 +492,6 @@ export default function ScanPage() {
         )}
       </motion.div>
 
-      {/* Error Display */}
       {error && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -507,7 +503,6 @@ export default function ScanPage() {
         </motion.div>
       )}
 
-      {/* Results */}
       {result && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -525,10 +520,10 @@ export default function ScanPage() {
                   />
                 )}
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-white">
+                  <h3 className="text-2xl font-bold text-gray-900">
                     {result.product.name}
                   </h3>
-                  <p className="text-gray-400">{result.product.brand}</p>
+                  <p className="text-gray-500">{result.product.brand}</p>
                   {result.product.price && (
                     <p className="text-pink-400 text-xl mt-2">
                       ${result.product.price}
@@ -541,13 +536,12 @@ export default function ScanPage() {
 
           {result.analysis && (
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-white">Ingredient Analysis</h3>
+              <h3 className="text-2xl font-bold text-gray-900">Ingredient Analysis</h3>
               
-              {/* Safety Score */}
               <div className="glass p-4">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-400">Overall Safety Score</span>
-                  <span className="text-white font-bold">
+                  <span className="text-gray-500">Overall Safety Score</span>
+                  <span className="text-gray-900 font-bold">
                     {(result.analysis.safety_score * 100).toFixed(0)}%
                   </span>
                 </div>
@@ -567,38 +561,36 @@ export default function ScanPage() {
                 </div>
               </div>
 
-              {/* Ingredient Counts */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="glass p-4 text-center">
                   <div className="text-3xl font-bold text-green-400">
                     {result.analysis.safe_count}
                   </div>
-                  <div className="text-gray-400 text-sm">Safe</div>
+                  <div className="text-gray-500 text-sm">Safe</div>
                 </div>
                 <div className="glass p-4 text-center">
                   <div className="text-3xl font-bold text-yellow-400">
                     {result.analysis.moderate_count}
                   </div>
-                  <div className="text-gray-400 text-sm">Moderate</div>
+                  <div className="text-gray-500 text-sm">Moderate</div>
                 </div>
                 <div className="glass p-4 text-center">
                   <div className="text-3xl font-bold text-red-400">
                     {result.analysis.hazardous_count}
                   </div>
-                  <div className="text-gray-400 text-sm">Hazardous</div>
+                  <div className="text-gray-500 text-sm">Hazardous</div>
                 </div>
                 <div className="glass p-4 text-center">
-                  <div className="text-3xl font-bold text-gray-400">
+                  <div className="text-3xl font-bold text-gray-500">
                     {result.analysis.unknown_count}
                   </div>
-                  <div className="text-gray-400 text-sm">Unknown</div>
+                  <div className="text-gray-500 text-sm">Unknown</div>
                 </div>
               </div>
 
-              {/* Warnings */}
               {result.analysis.warnings?.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-lg font-semibold text-white">Warnings</h4>
+                  <h4 className="text-lg font-semibold text-gray-900">Warnings</h4>
                   {result.analysis.warnings.map((warning: string, idx: number) => (
                     <div
                       key={idx}
@@ -611,10 +603,9 @@ export default function ScanPage() {
                 </div>
               )}
 
-              {/* Ingredients List */}
               {result.analysis.ingredients?.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-lg font-semibold text-white">Ingredients</h4>
+                  <h4 className="text-lg font-semibold text-gray-900">Ingredients</h4>
                   <div className="flex flex-wrap gap-2">
                     {result.analysis.ingredients.map((ing: any, idx: number) => (
                       <span
@@ -626,7 +617,7 @@ export default function ScanPage() {
                             ? 'badge-moderate'
                             : ing.category === 'hazardous'
                             ? 'badge-hazardous'
-                            : 'bg-gray-500/20 text-gray-300'
+                            : 'bg-gray-100 text-gray-600'
                         }`}
                       >
                         {typeof ing === 'string' ? ing : ing.name || String(ing)}
@@ -640,8 +631,8 @@ export default function ScanPage() {
 
           {result.extracted_text && (
             <div className="mt-6">
-              <h4 className="text-lg font-semibold text-white mb-2">Extracted Text</h4>
-              <pre className="bg-black/30 rounded-xl p-4 text-gray-300 text-sm overflow-x-auto">
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Extracted Text</h4>
+              <pre className="bg-gray-100 rounded-xl p-4 text-gray-600 text-sm overflow-x-auto">
                 {result.extracted_text}
               </pre>
             </div>

@@ -100,8 +100,8 @@ export default function ComparePage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h1 className="text-4xl font-bold text-white mb-4">Product Comparator</h1>
-        <p className="text-gray-400">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Product Comparator</h1>
+        <p className="text-gray-500">
           Compare up to 4 products side-by-side with fuzzy logic analysis
         </p>
       </motion.div>
@@ -120,7 +120,7 @@ export default function ComparePage() {
 
       {/* Product Selection */}
       <div className="glass p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">Add Products to Compare</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Add Products to Compare</h3>
         
         <div className="flex gap-4 mb-4">
           <input
@@ -142,16 +142,16 @@ export default function ComparePage() {
 
         {/* Search Results */}
         {searchResults.length > 0 && (
-          <div className="mb-4 p-4 bg-black/30 rounded-xl max-h-60 overflow-y-auto">
+          <div className="mb-4 p-4 bg-gray-100 rounded-xl max-h-60 overflow-y-auto">
             {searchResults.map((product) => (
               <div
                 key={product.id}
-                className="flex items-center justify-between p-3 hover:bg-white/5 rounded-lg cursor-pointer"
+                className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg cursor-pointer"
                 onClick={() => addProduct(product)}
               >
                 <div>
-                  <p className="text-white">{product.name}</p>
-                  <p className="text-gray-400 text-sm">{product.brand} &middot; ${product.price}</p>
+                  <p className="text-gray-900">{product.name}</p>
+                  <p className="text-gray-500 text-sm">{product.brand} &middot; ${product.price}</p>
                 </div>
                 <button
                   disabled={products.length >= 4 || products.find(p => p.id === product.id) !== undefined}
@@ -177,12 +177,12 @@ export default function ComparePage() {
             >
               <button
                 onClick={() => removeProduct(product.id)}
-                className="absolute top-2 right-2 text-gray-400 hover:text-red-400"
+                className="absolute top-2 right-2 text-gray-500 hover:text-red-400"
               >
                 <X className="w-4 h-4" />
               </button>
-              <p className="text-white font-medium pr-6">{product.name}</p>
-              <p className="text-gray-400 text-sm">{product.brand}</p>
+              <p className="text-gray-900 font-medium pr-6">{product.name}</p>
+              <p className="text-gray-500 text-sm">{product.brand}</p>
               {product.price && (
                 <p className="text-pink-400 mt-2">${product.price}</p>
               )}
@@ -190,7 +190,7 @@ export default function ComparePage() {
           ))}
           
           {products.length < 4 && (
-            <div className="glass p-4 border-dashed border-white/30 text-gray-400 flex items-center justify-center min-h-[100px]">
+            <div className="glass p-4 border-dashed border-gray-200 text-gray-500 flex items-center justify-center min-h-[100px]">
               <Plus className="w-8 h-8" />
             </div>
           )}
@@ -224,11 +224,11 @@ export default function ComparePage() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          <h2 className="text-2xl font-bold text-white">Comparison Results</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Comparison Results</h2>
 
           {/* Suitability Scores */}
           <div className="glass p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <BarChart3 className="w-5 h-5 text-purple-400" />
               Fuzzy Suitability Scores
             </h3>
@@ -240,8 +240,8 @@ export default function ComparePage() {
                     <div className="text-4xl font-bold gradient-text">
                       {(score * 100).toFixed(0)}%
                     </div>
-                    <p className="text-white text-sm mt-1">{rec.product?.name}</p>
-                    <p className="text-gray-400 text-xs">
+                    <p className="text-gray-900 text-sm mt-1">{rec.product?.name}</p>
+                    <p className="text-gray-500 text-xs">
                       {rec.fuzzy_output?.linguistic_output || 'N/A'}
                     </p>
                     <p className="text-pink-400 text-xs mt-1">
@@ -255,50 +255,50 @@ export default function ComparePage() {
 
           {/* Detailed Comparison Table */}
           <div className="glass p-6 overflow-x-auto">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Shield className="w-5 h-5 text-green-400" />
               Detailed Breakdown
             </h3>
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left text-gray-400 py-3 px-2">Metric</th>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left text-gray-500 py-3 px-2">Metric</th>
                   {comparisonResult.products?.map((rec: any, idx: number) => (
-                    <th key={idx} className="text-center text-white py-3 px-2">{rec.product?.name}</th>
+                    <th key={idx} className="text-center text-gray-900 py-3 px-2">{rec.product?.name}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-white/5">
-                  <td className="text-gray-400 py-3 px-2">Brand</td>
+                <tr className="border-b border-gray-200">
+                  <td className="text-gray-500 py-3 px-2">Brand</td>
                   {comparisonResult.products?.map((rec: any, idx: number) => (
-                    <td key={idx} className="text-center text-white py-3 px-2">{rec.product?.brand}</td>
+                    <td key={idx} className="text-center text-gray-900 py-3 px-2">{rec.product?.brand}</td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="text-gray-400 py-3 px-2">Price</td>
+                <tr className="border-b border-gray-200">
+                  <td className="text-gray-500 py-3 px-2">Price</td>
                   {comparisonResult.products?.map((rec: any, idx: number) => (
                     <td key={idx} className="text-center text-pink-400 py-3 px-2">${rec.product?.price}</td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="text-gray-400 py-3 px-2">Suitability</td>
+                <tr className="border-b border-gray-200">
+                  <td className="text-gray-500 py-3 px-2">Suitability</td>
                   {comparisonResult.products?.map((rec: any, idx: number) => (
                     <td key={idx} className="text-center text-green-400 py-3 px-2 font-bold">
                       {((rec.fuzzy_output?.suitability_score ?? 0) * 100).toFixed(0)}%
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="text-gray-400 py-3 px-2">Confidence</td>
+                <tr className="border-b border-gray-200">
+                  <td className="text-gray-500 py-3 px-2">Confidence</td>
                   {comparisonResult.products?.map((rec: any, idx: number) => (
-                    <td key={idx} className="text-center text-white py-3 px-2">
+                    <td key={idx} className="text-center text-gray-900 py-3 px-2">
                       {((rec.confidence_score ?? 0.5) * 100).toFixed(0)}%
                     </td>
                   ))}
                 </tr>
-                <tr className="border-b border-white/5">
-                  <td className="text-gray-400 py-3 px-2">Linguistic</td>
+                <tr className="border-b border-gray-200">
+                  <td className="text-gray-500 py-3 px-2">Linguistic</td>
                   {comparisonResult.products?.map((rec: any, idx: number) => (
                     <td key={idx} className="text-center text-purple-400 py-3 px-2">
                       {rec.fuzzy_output?.linguistic_output || 'N/A'}
@@ -306,9 +306,9 @@ export default function ComparePage() {
                   ))}
                 </tr>
                 <tr>
-                  <td className="text-gray-400 py-3 px-2">Explanation</td>
+                  <td className="text-gray-500 py-3 px-2">Explanation</td>
                   {comparisonResult.products?.map((rec: any, idx: number) => (
-                    <td key={idx} className="text-center text-gray-300 py-3 px-2 text-xs leading-relaxed">
+                    <td key={idx} className="text-center text-gray-600 py-3 px-2 text-xs leading-relaxed">
                       {rec.explanation ? rec.explanation.substring(0, 120) + '...' : 'N/A'}
                     </td>
                   ))}
@@ -320,8 +320,8 @@ export default function ComparePage() {
           {/* Recommendation */}
           {comparisonResult.recommendation && (
             <div className="glass p-6 border-purple-500/30">
-              <h3 className="text-lg font-semibold text-white mb-3">Recommendation</h3>
-              <p className="text-gray-300">{comparisonResult.recommendation}</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Recommendation</h3>
+              <p className="text-gray-600">{comparisonResult.recommendation}</p>
             </div>
           )}
         </motion.div>
@@ -331,10 +331,10 @@ export default function ComparePage() {
       {!comparisonResult && products.length < 2 && (
         <div className="glass p-12 text-center">
           <BarChart3 className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
             Select Products to Compare
           </h3>
-          <p className="text-gray-400">
+          <p className="text-gray-500">
             Search and add at least 2 products to see a detailed fuzzy logic comparison
           </p>
         </div>

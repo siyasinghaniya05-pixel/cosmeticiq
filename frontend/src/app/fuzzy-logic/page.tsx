@@ -65,11 +65,11 @@ export default function FuzzyLogicPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h1 className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
           <Brain className="w-10 h-10 text-purple-400" />
           Fuzzy Logic Decision Engine
         </h1>
-        <p className="text-gray-400 max-w-2xl mx-auto">
+        <p className="text-gray-500 max-w-2xl mx-auto">
           Our core decision engine uses soft computing and fuzzy logic to mimic human decision-making.
           Unlike simple scoring, fuzzy logic considers multiple factors simultaneously.
         </p>
@@ -77,28 +77,28 @@ export default function FuzzyLogicPage() {
 
       {/* How It Works */}
       <div className="glass p-6">
-        <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <Info className="w-5 h-5 text-blue-400" />
           How Fuzzy Logic Works
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div className="glass-card p-4">
             <h4 className="text-pink-400 font-medium mb-2">1. Fuzzification</h4>
-            <p className="text-gray-400">
+            <p className="text-gray-500">
               Convert crisp input values (like "fragrance = 0.8") into fuzzy sets 
               (like "fragrance = HIGH with 0.9 membership").
             </p>
           </div>
           <div className="glass-card p-4">
             <h4 className="text-purple-400 font-medium mb-2">2. Rule Evaluation</h4>
-            <p className="text-gray-400">
+            <p className="text-gray-500">
               Apply 50+ IF-THEN rules that encode expert knowledge. 
               Multiple rules can fire simultaneously with different strengths.
             </p>
           </div>
           <div className="glass-card p-4">
             <h4 className="text-indigo-400 font-medium mb-2">3. Defuzzification</h4>
-            <p className="text-gray-400">
+            <p className="text-gray-500">
               Convert the fuzzy output back to a crisp suitability score using 
               centroid calculation for precise recommendations.
             </p>
@@ -110,14 +110,14 @@ export default function FuzzyLogicPage() {
         {/* Input Controls */}
         <div className="space-y-6">
           <div className="glass p-6">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <Sliders className="w-5 h-5 text-purple-400" />
               Configure Inputs
             </h3>
 
             {/* Skin Type */}
             <div className="mb-6">
-              <label className="block text-gray-300 text-sm mb-2">Skin Type</label>
+              <label className="block text-gray-600 text-sm mb-2">Skin Type</label>
               <div className="flex flex-wrap gap-2">
                 {skinTypes.map((type) => (
                   <button
@@ -126,7 +126,7 @@ export default function FuzzyLogicPage() {
                     className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-all ${
                       inputs.skin_type === type
                         ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
-                        : 'glass text-gray-300 hover:text-white'
+                        : 'glass text-gray-600 hover:text-gray-900'
                     }`}
                   >
                     {type.replace('_', ' ')}
@@ -137,7 +137,7 @@ export default function FuzzyLogicPage() {
 
             {/* Climate */}
             <div className="mb-6">
-              <label className="block text-gray-300 text-sm mb-2">Climate</label>
+              <label className="block text-gray-600 text-sm mb-2">Climate</label>
               <div className="flex flex-wrap gap-2">
                 {climates.map((climate) => (
                   <button
@@ -146,7 +146,7 @@ export default function FuzzyLogicPage() {
                     className={`px-3 py-1.5 rounded-lg text-sm capitalize transition-all ${
                       inputs.climate === climate
                         ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white'
-                        : 'glass text-gray-300 hover:text-white'
+                        : 'glass text-gray-600 hover:text-gray-900'
                     }`}
                   >
                     {climate}
@@ -157,7 +157,7 @@ export default function FuzzyLogicPage() {
 
             {/* Age */}
             <div className="mb-6">
-              <label className="block text-gray-300 text-sm mb-2">Age: {inputs.age}</label>
+              <label className="block text-gray-600 text-sm mb-2">Age: {inputs.age}</label>
               <input
                 type="range"
                 min="15"
@@ -170,7 +170,7 @@ export default function FuzzyLogicPage() {
 
             {/* Budget */}
             <div className="mb-6">
-              <label className="block text-gray-300 text-sm mb-2">Budget: ${inputs.budget}</label>
+              <label className="block text-gray-600 text-sm mb-2">Budget: ${inputs.budget}</label>
               <input
                 type="range"
                 min="10"
@@ -187,8 +187,8 @@ export default function FuzzyLogicPage() {
               {sliders.map((slider) => (
                 <div key={slider.key}>
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-300">{slider.label}</span>
-                    <span className="text-white font-mono">
+                    <span className="text-gray-600">{slider.label}</span>
+                    <span className="text-gray-900 font-mono">
                       {(inputs as any)[slider.key].toFixed(1)}
                     </span>
                   </div>
@@ -225,7 +225,7 @@ export default function FuzzyLogicPage() {
             <>
               {/* Main Score */}
               <div className="glass p-8 text-center">
-                <p className="text-gray-400 mb-2">Suitability Score</p>
+                <p className="text-gray-500 mb-2">Suitability Score</p>
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -242,20 +242,20 @@ export default function FuzzyLogicPage() {
                 }`}>
                   {result.linguistic_output}
                 </p>
-                <p className="text-gray-400 text-sm mt-2">
+                <p className="text-gray-500 text-sm mt-2">
                   Confidence: {(result.confidence * 100).toFixed(0)}%
                 </p>
               </div>
 
               {/* Membership Values */}
               <div className="glass p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Fuzzy Membership Values</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Fuzzy Membership Values</h3>
                 <div className="space-y-3">
                   {Object.entries(result.membership_values || {}).map(([key, value]) => (
                     <div key={key}>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-300 capitalize">{key.replace('_', ' ')}</span>
-                        <span className="text-white">{((value as number) * 100).toFixed(1)}%</span>
+                        <span className="text-gray-600 capitalize">{key.replace('_', ' ')}</span>
+                        <span className="text-gray-900">{((value as number) * 100).toFixed(1)}%</span>
                       </div>
                       <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
                         <motion.div
@@ -282,29 +282,29 @@ export default function FuzzyLogicPage() {
                     onClick={() => setShowRules(!showRules)}
                     className="flex items-center justify-between w-full text-left"
                   >
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="text-lg font-semibold text-gray-900">
                       Triggered Rules ({result.triggered_rules.length})
                     </h3>
                     {showRules ? (
-                      <ChevronUp className="w-5 h-5 text-gray-400" />
+                      <ChevronUp className="w-5 h-5 text-gray-500" />
                     ) : (
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
+                      <ChevronDown className="w-5 h-5 text-gray-500" />
                     )}
                   </button>
                   {showRules && (
                     <div className="mt-4 space-y-2">
                       {result.triggered_rules.map((rule: any, idx: number) => (
                         <div key={idx} className="p-3 glass-card text-sm">
-                          <p className="text-gray-300">
+                          <p className="text-gray-600">
                             <span className="text-purple-400">IF</span>{' '}
                             {Object.entries(rule.conditions || {}).map(([key, val]) => (
                               <span key={key}>
-                                <span className="text-white">{key.replace(/_/g, ' ')}</span>{' '}
+                                <span className="text-gray-900">{key.replace(/_/g, ' ')}</span>{' '}
                                 <span className="text-pink-400">is {val as string}</span>
                               </span>
                             )).reduce((prev: any, curr: any) => [prev, ' AND ', curr], '')}
                           </p>
-                          <p className="text-gray-300 mt-1">
+                          <p className="text-gray-600 mt-1">
                             <span className="text-purple-400">THEN</span>{' '}
                             <span className="text-green-400">suitability = {rule.output}</span>
                           </p>
@@ -316,15 +316,7 @@ export default function FuzzyLogicPage() {
               )}
             </>
           ) : (
-            <div className="glass p-12 text-center">
-              <Brain className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
-                Configure & Evaluate
-              </h3>
-              <p className="text-gray-400">
-                Adjust the input parameters and click "Run Fuzzy Evaluation" to see the result.
-              </p>
-            </div>
+            <div />
           )}
         </div>
       </div>

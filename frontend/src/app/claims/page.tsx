@@ -71,7 +71,7 @@ export default function ClaimsPage() {
       default:
         return {
           icon: HelpCircle,
-          color: 'text-gray-400',
+          color: 'text-gray-500',
           bg: 'bg-gray-500/20 border-gray-500/30',
           label: 'Unknown',
         };
@@ -94,8 +94,8 @@ export default function ClaimsPage() {
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <h1 className="text-4xl font-bold text-white mb-4">Influencer Truth Detector</h1>
-        <p className="text-gray-400">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">Influencer Truth Detector</h1>
+        <p className="text-gray-500">
           Verify cosmetic claims against scientific evidence
         </p>
       </motion.div>
@@ -103,7 +103,7 @@ export default function ClaimsPage() {
       {/* Input */}
       <div className="glass p-6 space-y-4">
         <div>
-          <label className="block text-gray-300 text-sm mb-2">Claim to Verify</label>
+          <label className="block text-gray-600 text-sm mb-2">Claim to Verify</label>
           <textarea
             value={claim}
             onChange={(e) => setClaim(e.target.value)}
@@ -112,7 +112,7 @@ export default function ClaimsPage() {
           />
         </div>
         <div>
-          <label className="block text-gray-300 text-sm mb-2">Product Name (optional)</label>
+          <label className="block text-gray-600 text-sm mb-2">Product Name (optional)</label>
           <input
             type="text"
             value={productName}
@@ -140,13 +140,13 @@ export default function ClaimsPage() {
       {/* Sample Claims */}
       {!result && (
         <div className="glass p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Try These Sample Claims</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Try These Sample Claims</h3>
           <div className="space-y-2">
             {sampleClaims.map((sample, idx) => (
               <button
                 key={idx}
                 onClick={() => setClaim(sample)}
-                className="w-full text-left p-3 glass-card text-gray-300 hover:text-white text-sm"
+                className="w-full text-left p-3 glass-card text-gray-600 hover:text-gray-900 text-sm"
               >
                 "{sample}"
               </button>
@@ -173,19 +173,19 @@ export default function ClaimsPage() {
                     <h2 className={`text-2xl font-bold ${config.color}`}>
                       {config.label}
                     </h2>
-                    <p className="text-gray-400">
+                    <p className="text-gray-500">
                       Confidence: {(result.confidence_score * 100).toFixed(0)}%
                     </p>
                   </div>
                 </div>
-                <p className="text-gray-300 text-lg">{result.explanation}</p>
+                <p className="text-gray-600 text-lg">{result.explanation}</p>
               </div>
             );
           })()}
 
           {/* Confidence Meter */}
           <div className="glass p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Confidence Score</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Confidence Score</h3>
             <div className="relative h-4 bg-gray-700 rounded-full overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
@@ -200,7 +200,7 @@ export default function ClaimsPage() {
                 }`}
               />
             </div>
-            <div className="flex justify-between mt-2 text-sm text-gray-400">
+            <div className="flex justify-between mt-2 text-sm text-gray-500">
               <span>Low Confidence</span>
               <span>High Confidence</span>
             </div>
@@ -209,7 +209,7 @@ export default function ClaimsPage() {
           {/* Evidence */}
           {result.evidence?.length > 0 && (
             <div className="glass p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">Supporting Evidence</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Supporting Evidence</h3>
               <div className="space-y-3">
                 {result.evidence.map((source: any, idx: number) => (
                   <div key={idx} className="flex items-start gap-3 p-3 glass-card">
@@ -217,7 +217,7 @@ export default function ClaimsPage() {
                       <span className="text-blue-400 text-sm font-bold">{idx + 1}</span>
                     </div>
                     <div className="flex-1">
-                      <p className="text-white">{source.title || source.source}</p>
+                      <p className="text-gray-900">{source.title || source.source}</p>
                       {source.url && (
                         <a
                           href={source.url}
@@ -231,7 +231,7 @@ export default function ClaimsPage() {
                       )}
                     </div>
                     {source.relevance && (
-                      <span className="text-gray-400 text-sm">
+                      <span className="text-gray-500 text-sm">
                         {(source.relevance * 100).toFixed(0)}% relevant
                       </span>
                     )}
@@ -243,7 +243,7 @@ export default function ClaimsPage() {
 
           {/* Disclaimer */}
           <div className="glass p-4 border-yellow-500/30">
-            <p className="text-yellow-300 text-sm">
+            <p className="text-yellow-600 text-sm">
               <strong>Disclaimer:</strong> This analysis is for informational purposes only. 
               Always consult a dermatologist for personalized medical advice.
             </p>
