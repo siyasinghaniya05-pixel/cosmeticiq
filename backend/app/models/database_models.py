@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Text, ForeignKey, JSON
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Text, ForeignKey, JSON, Index
 from sqlalchemy.orm import relationship
 from datetime import datetime
 import enum
@@ -73,6 +73,13 @@ class UserProfile(Base):
 
 class Product(Base):
     __tablename__ = "products"
+    __table_args__ = (
+        Index("ix_products_brand_category", "brand", "category"),
+        Index("ix_products_safety_score", "safety_score"),
+        Index("ix_products_rating", "rating"),
+        Index("ix_products_is_organic", "is_organic"),
+        Index("ix_products_price", "price"),
+    )
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(500), nullable=False)
@@ -106,6 +113,10 @@ class Product(Base):
 
 class Ingredient(Base):
     __tablename__ = "ingredients"
+    __table_args__ = (
+        Index("ix_ingredients_safety_status", "safety_status"),
+        Index("ix_ingredients_ewg_score", "ewg_score"),
+    )
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255), nullable=False, unique=True)
@@ -200,6 +211,10 @@ class FuzzyRule(Base):
 
 class Review(Base):
     __tablename__ = "reviews"
+    __table_args__ = (
+        Index("ix_reviews_user_product", "user_id", "product_id"),
+        Index("ix_reviews_rating", "rating"),
+    )
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -252,6 +267,10 @@ class Claim(Base):
 
 class Recommendation(Base):
     __tablename__ = "recommendations"
+    __table_args__ = (
+        Index("ix_recommendations_user_product", "user_id", "product_id"),
+        Index("ix_recommendations_score", "suitability_score"),
+    )
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))

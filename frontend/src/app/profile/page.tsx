@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { 
+import {
   User, Save, Loader2, CheckCircle2,
-  Droplets, Sun, Wind, Thermometer
+  Droplets, Sun, Wind, Thermometer, AlertCircle, X
 } from 'lucide-react';
 
 const skinTypes = [
@@ -32,6 +32,43 @@ const climates = [
   { id: 'moderate', label: 'Moderate', icon: Thermometer },
 ];
 
+const validClimates = ['humid', 'dry', 'cold', 'temperate', 'tropical', 'moderate'];
+
+type ProfileField = 'age' | 'climate' | 'budgetMin' | 'budgetMax' | 'city';
+
+type ValidationErrors = Partial<Record<ProfileField, string>>;
+
+function validateField(field: ProfileField, profile: {
+  age: number;
+  climate: string;
+  budgetMin: number;
+  budgetMax: number;
+  city: string;
+}): string {
+  switch (field) {
+    case 'age':
+      if (!profile.age && profile.age !== 0) return 'Age is required';
+      if (profile.age < 10 || profile.age > 120) return 'Age must be between 10 and 120';
+      return '';
+    case 'climate':
+      if (!profile.climate) return 'Climate is required';
+      if (!validClimates.includes(profile.climate)) return 'Please select a valid climate';
+      return '';
+    case 'budgetMin':
+      if (profile.budgetMin < 0) return 'Minimum budget must be at least 0';
+      return '';
+    case 'budgetMax':
+      if (profile.budgetMax < 0) return 'Maximum budget must be at least 0';
+      if (profile.budgetMax < profile.budgetMin) return 'Maximum budget must be greater than or equal to minimum';
+      return '';
+    case 'city':
+      if (profile.city && profile.city.length > 100) return 'City must be 100 characters or less';
+      return '';
+    default:
+      return '';
+  }
+}
+
 export default function ProfilePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -39,6 +76,15 @@ export default function ProfilePage() {
 
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [touched, setTouched] = useState<Set<ProfileField>>(new Set());
+  const [errors, setErrors] = useState<ValidationErrors>({});
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showUnsavedWarning, setShowUnsavedWarning] = useState(false);
+  const [pendingNavigation, setPendingNavigation] = useState<(() => void) | null>(null);
+
+  const initialProfileRef = useRef<string>('');
+
   const [profile, setProfile] = useState({
     skinType: '',
     age: 30,
@@ -53,16 +99,82 @@ export default function ProfilePage() {
     isCrueltyFree: false,
   });
 
+  const updateProfile = useCallback((updates: Partial<typeof profile>) => {
+    setProfile(prev => ({ ...prev, ...updates }));
+    setHasUnsavedChanges(true);
+  }, []);
+
+  useEffect(() => {
+    initialProfileRef.current = JSON.stringify(profile);
+  }, []);
+
+  useEffect(() => {
+    const currentStr = JSON.stringify(profile);
+    setHasUnsavedChanges(currentStr !== initialProfileRef.current);
+  }, [profile]);
+
+  useEffect(() => {
+    if (!hasUnsavedChanges) return;
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [hasUnsavedChanges]);
+
+  useEffect(() => {
+    if (!hasUnsavedChanges) return;
+    const originalPush = router.push.bind(router);
+    const originalReplace = router.replace.bind(router);
+
+    router.push = (href: string, options?: { scroll?: boolean }) => {
+      setShowUnsavedWarning(true);
+      setPendingNavigation(() => () => originalPush(href, options));
+    };
+    router.replace = (href: string, options?: { scroll?: boolean }) => {
+      setShowUnsavedWarning(true);
+      setPendingNavigation(() => () => originalReplace(href, options));
+    };
+
+    return () => {
+      router.push = originalPush;
+      router.replace = originalReplace;
+    };
+  }, [hasUnsavedChanges, router]);
+
+  const handleBlur = useCallback((field: ProfileField) => {
+    setTouched(prev => new Set(prev).add(field));
+    const error = validateField(field, profile);
+    setErrors(prev => ({ ...prev, [field]: error }));
+  }, [profile]);
+
+  const validateAll = useCallback((): boolean => {
+    const fields: ProfileField[] = ['age', 'climate', 'budgetMin', 'budgetMax', 'city'];
+    const newErrors: ValidationErrors = {};
+    let isValid = true;
+    for (const field of fields) {
+      const error = validateField(field, profile);
+      if (error) {
+        newErrors[field] = error;
+        isValid = false;
+      }
+    }
+    setErrors(newErrors);
+    setTouched(new Set(fields));
+    return isValid;
+  }, [profile]);
+
   const toggleConcern = (concern: string) => {
-    setProfile(prev => ({
-      ...prev,
-      concerns: prev.concerns.includes(concern)
-        ? prev.concerns.filter(c => c !== concern)
-        : [...prev.concerns, concern]
-    }));
+    updateProfile({
+      concerns: profile.concerns.includes(concern)
+        ? profile.concerns.filter(c => c !== concern)
+        : [...profile.concerns, concern]
+    });
   };
 
   const handleSave = async () => {
+    if (!validateAll()) return;
+
     setIsSaving(true);
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/users/profile`, {
@@ -85,12 +197,30 @@ export default function ProfilePage() {
         }),
       });
       setSaved(true);
-      setTimeout(() => router.push('/dashboard'), 1500);
+      setShowToast(true);
+      setHasUnsavedChanges(false);
+      initialProfileRef.current = JSON.stringify(profile);
+      setTimeout(() => setShowToast(false), 4000);
+      setTimeout(() => router.push('/dashboard'), 2500);
     } catch (error) {
       console.error('Failed to save profile');
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleDiscard = () => {
+    setHasUnsavedChanges(false);
+    setShowUnsavedWarning(false);
+    if (pendingNavigation) {
+      pendingNavigation();
+      setPendingNavigation(null);
+    }
+  };
+
+  const handleCancelNavigation = () => {
+    setShowUnsavedWarning(false);
+    setPendingNavigation(null);
   };
 
   return (
@@ -104,20 +234,60 @@ export default function ProfilePage() {
           {isSetup ? 'Complete Your Profile' : 'Edit Profile'}
         </h1>
         <p className="text-gray-500">
-          {isSetup 
+          {isSetup
             ? 'Tell us about your skin so we can provide personalized recommendations'
             : 'Update your skin profile for better recommendations'}
         </p>
       </motion.div>
 
-      {saved && (
+      {showToast && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="glass p-4 border-green-500/50 flex items-center gap-3"
+          initial={{ opacity: 0, y: -20, x: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="fixed top-6 right-6 z-50 bg-green-50 border border-green-200 rounded-xl shadow-lg p-4 flex items-center gap-3"
         >
-          <CheckCircle2 className="w-5 h-5 text-green-400" />
-          <span className="text-green-300">Profile saved successfully!</span>
+          <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" />
+          <span className="text-green-700 font-medium">Profile saved successfully!</span>
+          <button onClick={() => setShowToast(false)} className="ml-2 text-green-400 hover:text-green-600">
+            <X className="w-4 h-4" />
+          </button>
+        </motion.div>
+      )}
+
+      {showUnsavedWarning && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full mx-4"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <AlertCircle className="w-6 h-6 text-amber-500 shrink-0" />
+              <h3 className="text-lg font-semibold text-gray-900">Unsaved Changes</h3>
+            </div>
+            <p className="text-gray-600 mb-6">
+              You have unsaved changes. Are you sure you want to leave? Your changes will be lost.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={handleCancelNavigation}
+                className="px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+              >
+                Stay
+              </button>
+              <button
+                onClick={handleDiscard}
+                className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition-colors"
+              >
+                Discard
+              </button>
+            </div>
+          </motion.div>
         </motion.div>
       )}
 
@@ -131,7 +301,7 @@ export default function ProfilePage() {
           {skinTypes.map((type) => (
             <button
               key={type.id}
-              onClick={() => setProfile({ ...profile, skinType: type.id })}
+              onClick={() => updateProfile({ skinType: type.id })}
               className={`p-4 rounded-xl text-left transition-all ${
                 profile.skinType === type.id
                   ? 'bg-gradient-to-r from-pink-500/30 to-purple-500/30 border-2 border-pink-500'
@@ -152,17 +322,21 @@ export default function ProfilePage() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Age</h3>
           <input
             type="range"
-            min="15"
-            max="80"
+            min="10"
+            max="120"
             value={profile.age}
-            onChange={(e) => setProfile({ ...profile, age: parseInt(e.target.value) })}
+            onChange={(e) => updateProfile({ age: parseInt(e.target.value) })}
+            onBlur={() => handleBlur('age')}
             className="w-full accent-pink-500"
           />
           <div className="flex justify-between text-gray-500 text-sm mt-2">
-            <span>15</span>
+            <span>10</span>
             <span className="text-gray-900 text-lg font-bold">{profile.age}</span>
-            <span>80</span>
+            <span>120</span>
           </div>
+          {touched.has('age') && errors.age && (
+            <p className="text-red-500 text-sm mt-2">{errors.age}</p>
+          )}
         </div>
 
         <div className="glass p-6">
@@ -171,7 +345,11 @@ export default function ProfilePage() {
             {climates.map((climate) => (
               <button
                 key={climate.id}
-                onClick={() => setProfile({ ...profile, climate: climate.id })}
+                onClick={() => {
+                  updateProfile({ climate: climate.id });
+                  setTouched(prev => new Set(prev).add('climate'));
+                  setErrors(prev => ({ ...prev, climate: validateField('climate', { ...profile, climate: climate.id }) }));
+                }}
                 className={`p-3 rounded-xl flex items-center gap-2 text-sm transition-all ${
                   profile.climate === climate.id
                     ? 'bg-gradient-to-r from-pink-500/30 to-purple-500/30 border border-pink-500 text-white'
@@ -183,6 +361,9 @@ export default function ProfilePage() {
               </button>
             ))}
           </div>
+          {touched.has('climate') && errors.climate && (
+            <p className="text-red-500 text-sm mt-2">{errors.climate}</p>
+          )}
         </div>
       </div>
 
@@ -192,10 +373,14 @@ export default function ProfilePage() {
         <input
           type="text"
           value={profile.city}
-          onChange={(e) => setProfile({ ...profile, city: e.target.value })}
+          onChange={(e) => updateProfile({ city: e.target.value })}
+          onBlur={() => handleBlur('city')}
           placeholder="Enter your city for weather-based recommendations"
           className="input-glass"
         />
+        {touched.has('city') && errors.city && (
+          <p className="text-red-500 text-sm mt-2">{errors.city}</p>
+        )}
       </div>
 
       {/* Budget */}
@@ -207,10 +392,17 @@ export default function ProfilePage() {
             <input
               type="number"
               value={profile.budgetMin}
-              onChange={(e) => setProfile({ ...profile, budgetMin: parseInt(e.target.value) })}
+              onChange={(e) => updateProfile({ budgetMin: parseInt(e.target.value) || 0 })}
+              onBlur={() => {
+                handleBlur('budgetMin');
+                if (touched.has('budgetMax')) handleBlur('budgetMax');
+              }}
               className="input-glass"
               min="0"
             />
+            {touched.has('budgetMin') && errors.budgetMin && (
+              <p className="text-red-500 text-sm mt-2">{errors.budgetMin}</p>
+            )}
           </div>
           <span className="text-gray-500">to</span>
           <div className="flex-1">
@@ -218,10 +410,17 @@ export default function ProfilePage() {
             <input
               type="number"
               value={profile.budgetMax}
-              onChange={(e) => setProfile({ ...profile, budgetMax: parseInt(e.target.value) })}
+              onChange={(e) => updateProfile({ budgetMax: parseInt(e.target.value) || 0 })}
+              onBlur={() => {
+                handleBlur('budgetMax');
+                if (touched.has('budgetMin')) handleBlur('budgetMin');
+              }}
               className="input-glass"
               min="0"
             />
+            {touched.has('budgetMax') && errors.budgetMax && (
+              <p className="text-red-500 text-sm mt-2">{errors.budgetMax}</p>
+            )}
           </div>
         </div>
       </div>
@@ -254,7 +453,7 @@ export default function ProfilePage() {
             <input
               type="checkbox"
               checked={profile.isPregnant}
-              onChange={(e) => setProfile({ ...profile, isPregnant: e.target.checked })}
+              onChange={(e) => updateProfile({ isPregnant: e.target.checked })}
               className="w-5 h-5 rounded border-gray-600 bg-gray-50 text-pink-500 focus:ring-pink-500"
             />
             <span className="text-gray-600">I am pregnant or planning pregnancy</span>
@@ -263,7 +462,7 @@ export default function ProfilePage() {
             <input
               type="checkbox"
               checked={profile.isVegan}
-              onChange={(e) => setProfile({ ...profile, isVegan: e.target.checked })}
+              onChange={(e) => updateProfile({ isVegan: e.target.checked })}
               className="w-5 h-5 rounded border-gray-600 bg-gray-50 text-pink-500 focus:ring-pink-500"
             />
             <span className="text-gray-600">I prefer vegan products</span>
@@ -272,7 +471,7 @@ export default function ProfilePage() {
             <input
               type="checkbox"
               checked={profile.isCrueltyFree}
-              onChange={(e) => setProfile({ ...profile, isCrueltyFree: e.target.checked })}
+              onChange={(e) => updateProfile({ isCrueltyFree: e.target.checked })}
               className="w-5 h-5 rounded border-gray-600 bg-gray-50 text-pink-500 focus:ring-pink-500"
             />
             <span className="text-gray-600">I prefer cruelty-free products</span>
