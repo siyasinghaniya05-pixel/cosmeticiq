@@ -7,21 +7,26 @@ import { Menu, X, Sparkles, User, LogOut } from 'lucide-react';
 import { useState } from 'react';
 import { useAppStore } from '@/lib/store';
 
-const navItems = [
-  { href: '/', label: 'Home' },
-  { href: '/skin-twin', label: 'Skin Twin' },
-  { href: '/interactions', label: 'Interactions' },
+const platformNavItems = [
+  { href: '/dashboard', label: 'Dashboard' },
   { href: '/scan', label: 'Scan' },
   { href: '/analyze', label: 'Analyze' },
   { href: '/compare', label: 'Compare' },
-  { href: '/fuzzy-logic', label: 'Fuzzy Logic' },
-  { href: '/dashboard', label: 'Dashboard' },
+  { href: '/knowledge-graph', label: 'Knowledge Graph' },
+  { href: '/allergy', label: 'Allergy' },
+  { href: '/safety-score', label: 'Safety Score' },
+  { href: '/beauty-coach', label: 'AI Coach' },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { user, logout } = useAppStore();
+
+  const isLanding = pathname === '/';
+  const isDashboard = pathname.startsWith('/dashboard');
+
+  if (isDashboard) return null;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200">
@@ -34,13 +39,16 @@ export function Navbar() {
             <span className="text-xl font-bold gradient-text">CosmeticIQ</span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href} className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${pathname === item.href ? 'text-pink-600 bg-pink-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}>
-                {item.label}
-              </Link>
-            ))}
-          </div>
+          {/* Landing page: no nav links. Platform: show feature links */}
+          {!isLanding && (
+            <div className="hidden md:flex items-center space-x-1">
+              {platformNavItems.map((item) => (
+                <Link key={item.href} href={item.href} className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${pathname === item.href ? 'text-pink-600 bg-pink-50' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'}`}>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          )}
 
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
@@ -54,7 +62,7 @@ export function Navbar() {
             ) : (
               <>
                 <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors">Login</Link>
-                <Link href="/register" className="glass-button text-sm py-2 px-4">Get Started</Link>
+                <Link href="/dashboard" className="glass-button text-sm py-2 px-4">Get Started</Link>
               </>
             )}
           </div>
@@ -66,7 +74,7 @@ export function Navbar() {
 
         {isOpen && (
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="md:hidden py-4 border-t border-gray-200">
-            {navItems.map((item) => (
+            {!isLanding && platformNavItems.map((item) => (
               <Link key={item.href} href={item.href} onClick={() => setIsOpen(false)} className={`block py-2 px-4 rounded-lg ${pathname === item.href ? 'bg-pink-50 text-pink-600' : 'text-gray-600 hover:bg-gray-100'}`}>
                 {item.label}
               </Link>
@@ -77,7 +85,7 @@ export function Navbar() {
               ) : (
                 <div className="space-y-2">
                   <Link href="/login" onClick={() => setIsOpen(false)} className="block py-2 text-gray-600 hover:text-gray-900">Login</Link>
-                  <Link href="/register" onClick={() => setIsOpen(false)} className="block py-2 text-pink-600 hover:text-pink-500">Get Started</Link>
+                  <Link href="/dashboard" onClick={() => setIsOpen(false)} className="block py-2 text-pink-600 hover:text-pink-500">Get Started</Link>
                 </div>
               )}
             </div>

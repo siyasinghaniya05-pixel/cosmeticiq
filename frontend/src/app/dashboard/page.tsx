@@ -9,8 +9,10 @@ import {
   ArrowRight, Clock, Heart, Plus, Clipboard, Eye
 } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
   const [profile, setProfile] = useState<any>(null);
   const [dashboardData, setDashboardData] = useState<any>(null);
@@ -18,23 +20,30 @@ export default function DashboardPage() {
   const { token } = useAppStore();
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      const tk = token || (typeof window !== 'undefined' ? localStorage.getItem('token') : null);
-      if (!tk) {
-        setLoading(false);
-        return;
-      }
+    const tk = token || (typeof window !== 'undefined' ? localStorage.getItem('token') : null);
+    if (!tk) {
+      router.push('/login');
+      return;
+    }
+    const headers = { Authorization: `Bearer ${tk}` };
+    const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
 
+    (async () => {
       try {
-        const headers = { Authorization: `Bearer ${tk}` };
         const [profileRes, dashRes] = await Promise.allSettled([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/users/profile`, { headers }),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/users/dashboard`, { headers }),
+          fetch(`${API}/users/profile`, { headers }),
+          fetch(`${API}/users/dashboard`, { headers }),
         ]);
 
-        if (profileRes.status === 'fulfilled' && profileRes.value.ok) {
-          const pData = await profileRes.value.json();
+        const profileResult = profileRes.status === 'fulfilled' ? profileRes.value : null;
+        if (profileResult && profileResult.status === 401) {
+          localStorage.removeItem('token');
+          router.push('/login');
+          return;
+        }
+
+        if (profileResult && profileResult.ok) {
+          const pData = await profileResult.json();
           if (pData && pData.skin_type) {
             setProfile(pData);
           }
@@ -48,9 +57,8 @@ export default function DashboardPage() {
       } finally {
         setLoading(false);
       }
-    };
-    loadData();
-  }, [token]);
+    })();
+  }, [token, router]);
 
   if (loading) {
     return (

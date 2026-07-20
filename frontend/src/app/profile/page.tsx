@@ -98,15 +98,65 @@ export default function ProfilePage() {
     isVegan: false,
     isCrueltyFree: false,
   });
+  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [saveError, setSaveError] = useState('');
 
   const updateProfile = useCallback((updates: Partial<typeof profile>) => {
     setProfile(prev => ({ ...prev, ...updates }));
     setHasUnsavedChanges(true);
+    setSaveError('');
   }, []);
 
   useEffect(() => {
+    const tk = localStorage.getItem('token');
+    if (!tk) {
+      router.push('/login');
+    }
+  }, [router]);
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      const tk = localStorage.getItem('token');
+      if (!tk) return;
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/users/profile`, {
+          headers: { Authorization: `Bearer ${tk}` },
+        });
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          router.push('/login');
+          return;
+        }
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.skin_type) {
+            setProfile({
+              skinType: data.skin_type || '',
+              age: data.age || 30,
+              climate: data.climate || '',
+              city: data.city || '',
+              budgetMin: data.budget_min ?? 20,
+              budgetMax: data.budget_max ?? 200,
+              allergies: data.allergies || [],
+              concerns: data.concerns || [],
+              isPregnant: data.is_pregnant || false,
+              isVegan: data.is_vegan || false,
+              isCrueltyFree: data.is_cruelty_free || false,
+            });
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load profile');
+      } finally {
+        setLoadingProfile(false);
+      }
+    };
+    loadProfile();
+  }, [router]);
+
+  useEffect(() => {
     initialProfileRef.current = JSON.stringify(profile);
-  }, []);
+  }, [loadingProfile]);
 
   useEffect(() => {
     const currentStr = JSON.stringify(profile);
@@ -176,8 +226,9 @@ export default function ProfilePage() {
     if (!validateAll()) return;
 
     setIsSaving(true);
+    setSaveError('');
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/users/profile`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/users/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -191,11 +242,22 @@ export default function ProfilePage() {
           budget_min: profile.budgetMin,
           budget_max: profile.budgetMax,
           concerns: profile.concerns,
+          allergies: profile.allergies,
           is_pregnant: profile.isPregnant,
           is_vegan: profile.isVegan,
           is_cruelty_free: profile.isCrueltyFree,
         }),
       });
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        router.push('/login');
+        return;
+      }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ detail: 'Failed to save profile' }));
+        setSaveError(err.detail || 'Failed to save profile');
+        return;
+      }
       setSaved(true);
       setShowToast(true);
       setHasUnsavedChanges(false);
@@ -203,7 +265,7 @@ export default function ProfilePage() {
       setTimeout(() => setShowToast(false), 4000);
       setTimeout(() => router.push('/dashboard'), 2500);
     } catch (error) {
-      console.error('Failed to save profile');
+      setSaveError('Network error. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -222,6 +284,17 @@ export default function ProfilePage() {
     setShowUnsavedWarning(false);
     setPendingNavigation(null);
   };
+
+  if (loadingProfile) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-500">Loading your profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
@@ -480,6 +553,11 @@ export default function ProfilePage() {
       </div>
 
       {/* Save Button */}
+      {saveError && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-red-700 text-sm">
+          {saveError}
+        </div>
+      )}
       <motion.button
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
