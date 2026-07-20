@@ -12,7 +12,7 @@ services:
       - key: ENVIRONMENT
         value: production
       - key: PYTHON_VERSION
-        value: 3.11.8
+        value: 3.11.9
     healthCheckPath: /health
     autoDeploy: true
 
